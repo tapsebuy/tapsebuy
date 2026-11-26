@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tapsebuy - Best Amazon Deals & Trending Products</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #f59e0b;
+            --accent-hover: #d97706;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding-bottom: 40px;
+        }
+
+        /* Header / Navbar */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .brand-logo span {
+            color: var(--accent);
+        }
+
+        .badge {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 28px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Category Section */
+        .category-section {
+            margin: 24px 0;
+            padding-left: 16px;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-right: 16px;
+            margin-bottom: 12px;
+        }
+
+        .category-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-left: 4px solid var(--accent);
+            padding-left: 10px;
+        }
+
+        .slider-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin: 10px 0 8px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Horizontal Slider */
+        .product-slider {
+            display: flex;
+            gap: 14px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            padding-right: 16px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Hide scrollbar for clean look */
+        .product-slider::-webkit-scrollbar {
+            height: 4px;
+        }
+        .product-slider::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        /* Product Card */
+        .product-card {
+            flex: 0 0 165px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid #e2e8f0;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 130px;
+            object-fit: contain;
+            background: #f1f5f9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+
+        .product-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .product-price {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .buy-btn {
+            display: block;
+            text-align: center;
+            background-color: var(--accent);
+            color: #000000;
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 8px 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .buy-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Footer & Disclaimer */
+        footer {
+            text-align: center;
+            padding: 24px 16px;
+            margin-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="brand-logo">Tapse<span>buy</span></a>
+        <span class="badge">🔥 Trending Deals</span>
+    </header>
+
+    <div class="hero">
+        <h1>Handpicked Amazon Best Deals</h1>
+        <p>Top-rated gadgets, home essentials & daily deals curated just for you.</p>
+    </div>
+
+    <div id="catalog-container"></div>
+
+    <footer>
+        <p><strong>Tapsebuy</strong> - Smart Shopping Starts Here</p>
+        <p style="margin-top: 6px;">Affiliate Disclosure: As an Amazon Associate, Tapsebuy earns from qualifying purchases at no extra cost to you.</p>
+    </footer>
+
+    <script>
+        // Yahan aap apne Categories aur Products aasaani se edit kar sakte hain
+        const storeData = [
+            {
+                categoryName: "Electronics & Smart Gadgets",
+                slider1Title: "Trending Now",
+                slider1Products: [
+                    { title: "Wireless Bluetooth Earbuds with ANC", price: "₹1,299", img: "https://via.placeholder.com/200x200.png?text=Earbuds", link: "https://www.amazon.in/" },
+                    { title: "Smart Fitness Watch AMOLED Display", price: "₹1,999", img: "https://via.placeholder.com/200x200.png?text=Smartwatch", link: "https://www.amazon.in/" },
+                    { title: "10000mAh Fast Charging Power Bank", price: "₹899", img: "https://via.placeholder.com/200x200.png?text=Power+Bank", link: "https://www.amazon.in/" },
+                    { title: "Portable Mini Bluetooth Speaker", price: "₹699", img: "https://via.placeholder.com/200x200.png?text=Speaker", link: "https://www.amazon.in/" }
+                ],
+                slider2Title: "Budget Picks Under ₹999",
+                slider2Products: [
+                    { title: "Braided Fast Charging Type-C Cable", price: "₹249", img: "https://via.placeholder.com/200x200.png?text=Cable", link: "https://www.amazon.in/" },
+                    { title: "Adjustable Aluminum Mobile Stand", price: "₹299", img: "https://via.placeholder.com/200x200.png?text=Mobile+Stand", link: "https://www.amazon.in/" },
+                    { title: "LED Ring Light with Tripod Stand", price: "₹799", img: "https://via.placeholder.com/200x200.png?text=Ring+Light", link: "https://www.amazon.in/" },
+                    { title: "Wireless Optical Silent Mouse", price: "₹449", img: "https://via.placeholder.com/200x200.png?text=Mouse", link: "https://www.amazon.in/" }
+                ]
+            },
+            {
+                categoryName: "Home & Kitchen Essentials",
+                slider1Title: "Most Gifted & Popular",
+                slider1Products: [
+                    { title: "Electric Kettle 1.5 Litre Stainless Steel", price: "₹649", img: "https://via.placeholder.com/200x200.png?text=Kettle", link: "https://www.amazon.in/" },
+                    { title: "Rechargeable Mini Vegetable Chopper", price: "₹399", img: "https://via.placeholder.com/200x200.png?text=Chopper", link: "
