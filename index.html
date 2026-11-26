@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10131c">
+<title>Tapsebuy | Smart Shopping. Better Choices.</title>
+<meta name="description" content="Discover trending products, gadgets, fashion and everyday essentials at Tapsebuy.">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--dark:#10131c;--gold:#f2ad4b;--text:#20232b;--muted:#777d89;--page:#f6f7f9}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--page);color:var(--text)}
+button,input{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+.container{width:min(1180px,94%);margin:auto}
+
+header{background:var(--dark);color:white;position:sticky;top:0;z-index:20;box-shadow:0 3px 15px #0002}
+.header-inner{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{color:white;text-decoration:none;font-size:27px;font-weight:900;letter-spacing:-1px;white-space:nowrap}
+.logo span{color:var(--gold)}
+.search-box{display:flex;align-items:center;background:white;border-radius:9px;overflow:hidden;width:min(420px,55%)}
+.search-box input{width:100%;min-width:0;border:0;outline:0;padding:12px 14px;color:#222}
+.search-box button{border:0;background:var(--gold);padding:12px 16px;cursor:pointer}
+
+main{padding:24px 0 45px}
+.section{margin-bottom:32px}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}
+.section-heading h2{font-size:21px;font-weight:800}
+.section-heading small{color:var(--muted);font-size:12px}
+
+.category-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.category{display:block;color:var(--text);text-decoration:none;text-align:center;background:white;padding:10px;border-radius:13px;box-shadow:0 3px 14px #18203008;transition:.2s}
+.category:hover{transform:translateY(-3px);box-shadow:0 7px 20px #18203015}
+.category img{width:100%;aspect-ratio:1/.78;object-fit:cover;border-radius:9px;display:block;margin-bottom:9px}
+.category span{font-size:13px;font-weight:700}
+
+.featured{--glow:#57452e;position:relative;isolation:isolate;overflow:hidden;border-radius:22px;padding:25px 12px 18px;background:#10131c;color:white;margin-bottom:35px}
+.featured:before{content:"";position:absolute;z-index:-1;inset:-50px;background:radial-gradient(ellipse at 50% 45%,var(--glow),#22232d 48%,#10131c 80%);filter:blur(16px);transition:background .5s}
+.featured-heading{text-align:center;margin-bottom:15px}
+.featured-heading span{color:var(--gold);font-size:10px;letter-spacing:3px;font-weight:800}
+.featured-heading h2{font-size:clamp(22px,5vw,29px);margin-top:7px}
+.featured-stage{height:310px;position:relative;display:flex;align-items:center;justify-content:center;touch-action:pan-y}
+.featured-track{position:relative;width:100%;height:290px;display:flex;align-items:center;justify-content:center}
+.featured-card{position:absolute;width:min(72%,340px);height:278px;padding:11px;border:1px solid #ffffff30;border-radius:18px;background:#ffffff13;backdrop-filter:blur(13px);box-shadow:0 18px 45px #0007;transition:transform .5s,opacity .5s;display:flex;flex-direction:column;justify-content:space-between}
+.featured-card img{width:100%;height:195px;object-fit:contain;border-radius:11px;background:#ffffff0b}
+.featured-card h3{text-align:center;font-size:16px;margin:8px 0}
+.featured-card.active{z-index:3;opacity:1;transform:translateX(0) scale(1)}
+.featured-card.previous{z-index:2;opacity:.42;transform:translateX(-78%) scale(.77);pointer-events:none}
+.featured-card.next-card{z-index:2;opacity:.42;transform:translateX(78%) scale(.77);pointer-events:none}
+.featured-card.hidden{opacity:0;transform:scale(.6);pointer-events:none}
+.buy-button{display:block;width:100%;text-align:center;text-decoration:none;background:linear-gradient(110deg,#f7c873,#e99a35);color:#241707;border-radius:9px;padding:11px 8px;font-size:13px;font-weight:800;transition:filter .2s}
+.buy-button:hover{filter:brightness(1.07)}
+.slide-arrow{position:absolute;z-index:5;top:43%;width:36px;height:36px;border:1px solid #ffffff55;border-radius:50%;background:#10131cbb;color:white;font-size:25px;cursor:pointer}
+.slide-arrow.prev{left:2px}
+.slide-arrow.next{right:2px}
+.featured-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 4px 0;color:#ffffffa8;font-size:10px;letter-spacing:1px}
+.featured-dots{display:flex;align-items:center;gap:6px}
+.featured-dots button{width:7px;height:7px;padding:0;border:0;border-radius:10px;background:#ffffff55;cursor:pointer;transition:width .3s}
+.featured-dots button.selected{width:23px;background:var(--gold)}
+
+.product-slider{display:grid;grid-auto-flow:column;grid-auto-columns:185px;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:#c4c7ce transparent;padding:2px 2px 13px}
+.product-card{background:white;border-radius:13px;padding:11px;box-shadow:0 3px 14px #18203009;scroll-snap-align:start;min-width:0}
+.product-card img{display:block;width:100%;height:145px;object-fit:contain;border-radius:9px;background:#f6f6f6;margin-bottom:10px}
+.product-card h3{font-size:13px;line-height:1.4;min-height:36px;margin-bottom:10px}
+.product-card .buy-button{font-size:11px;padding:10px 5px}
+.no-results{padding:25px 10px;color:var(--muted);font-size:14px;text-align:center;display:none}
+
+footer{background:var(--dark);color:white;padding:30px 0 22px}
+.footer-inner{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.footer-brand p{color:#b6bac4;font-size:13px;margin-top:8px}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap}
+.footer-links a{color:#e0e2e8;text-decoration:none;font-size:13px}
+.disclosure{border-top:1px solid #ffffff20;margin-top:22px;padding-top:17px;color:#aeb3be;font-size:11px;line-height:1.6}
+
+@media(max-width:600px){
+.header-inner{min-height:62px;gap:10px}
+.logo{font-size:23px}
+.search-box{width:54%}
+.search-box input{padding:10px 9px;font-size:12px}
+.search-box button{padding:10px 11px}
+main{padding-top:18px}
+.category-grid{gap:9px}
+.category{padding:7px;border-radius:10px}
+.category span{font-size:11px}
+.section-heading h2{font-size:18px}
+.featured{border-radius:17px;padding:20px 8px 15px}
+.featured-stage{height:285px}
+.featured-track{height:265px}
+.featured-card{width:74%;height:255px}
+.featured-card img{height:174px}
+.featured-card.previous{transform:translateX(-76%) scale(.73)}
+.featured-card.next-card{transform:translateX(76%) scale(.73)}
+.product-slider{grid-auto-columns:155px;gap:10px}
+.product-card img{height:125px}
+.swipe-hint{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="container header-inner">
+    <a class="logo" href="#">TAPSE<span>BUY</span></a>
+    <form class="search-box" id="searchForm">
+      <input type="search" id="searchInput" placeholder="Search products..." aria-label="Search products">
+      <button type="submit" aria-label="Search">⌕</button>
+    </form>
+  </div>
+</header>
+
+<main class="container">
+  <section class="section">
+    <div class="section-heading">
+      <h2>Shop by Category</h2>
+      <small>Explore collections</small>
+    </div>
+    <div class="category-grid">
+      <a class="category" href="#trending" data-category="fashion">
+        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500" alt="Fashion">
+        <span>Fashion</span>
+      </a>
+      <a class="category" href="#trending" data-category="technology">
+        <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=500" alt="Technology">
+        <span>Technology</span>
+      </a>
+      <a class="category" href="#trending" data-category="gadgets">
+        <img src="https://images.unsplash.com/photo-1523206489230-c012c64b2b48?w=500" alt="Gadgets">
+        <span>Gadgets</span>
+      </a>
+      <a class="category" href="#trending" data-category="kitchen">
+        <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=500" alt="Kitchen">
+        <span>Kitchen</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="featured" id="featuredShowcase">
+    <div class="featured-heading">
+      <span>HANDPICKED FOR YOU</span>
+      <h2>Featured Products</h2>
+    </div>
+    <div class="featured-stage" id="featuredStage">
+      <button class="slide-arrow prev" id="featuredPrev" aria-label="Previous product">‹</button>
+      <div class="featured-track" id="featuredTrack"></div>
+      <button class="slide-arrow next" id="featuredNext" aria-label="Next product">›</button>
+    </div>
+    <div class="featured-controls">
+      <span id="slideCount">01 / 03</span>
+      <div class="featured-dots" id="featuredDots"></div>
+      <span class="swipe-hint">SWIPE TO EXPLORE</span>
+    </div>
+  </section>
+
+  <section class="section" id="trending">
+    <div class="section-heading">
+      <h2>Trending Products</h2>
+      <small>Explore more →</small>
+    </div>
+    <div class="product-slider" id="trendingProducts"></div>
+    <div class="no-results" id="trendingEmpty">No matching products found.</div>
+  </section>
+
+  <section class="section" id="bestPicks">
+    <div class="section-heading">
+      <h2>Best Picks</h2>
+      <small>Our selected picks →</small>
+    </div>
+    <div class="product-slider" id="bestProducts"></div>
+    <div class="no-results" id="bestEmpty">No matching products found.</div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a class="logo" href="#">TAPSE<span>BUY</span></a>
+        <p>Smart Shopping. Better Choices.</p>
+      </div>
+      <nav class="footer-links">
+        <a href="#about">About</a>
+        <a href="mailto:contact@tapsebuy.com">Contact</a>
+      </nav>
+    </div>
+    <div class="disclosure" id="about">
+      As an Amazon Associate, we earn from qualifying purchases.
+    </div>
+  </div>
+</footer>
+
+<script>
+const featuredProducts=[
+{name:"Premium Headphones",image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=700",link:"https://www.amazon.in/"},
+{name:"Smart Watch",image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=700",link:"https://www.amazon.in/"},
+{name:"Wireless Speaker",image:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=700",link:"https://www.amazon.in/"}
+];
+
+const trendingProducts=[
+{name:"Wireless Earbuds",image:"https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=500",link:"https://www.amazon.in/",category:"technology"},
+{name:"Bluetooth Speaker",image:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500",link:"https://www.amazon.in/",category:"gadgets"},
+{name:"Fashion Accessories",image:"https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=500",link:"https://www.amazon.in/",category:"fashion"},
+{name:"Kitchen Essentials",image:"https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=500",link:"https://www.amazon.in/",category:"kitchen"}
+];
+
+const bestProducts=[
+{name:"Classic Wrist Watch",image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",link:"https://www.amazon.in/",category:"fashion"},
+{name:"Modern Gadgets",image:"https://images.unsplash.com/photo-1498049794561-7780e7231661?w=500",link:"https://www.amazon.in/",category:"technology"},
+{name:"Everyday Accessories",image:"https://images.unsplash.com/photo-1523206489230-c012c64b2b48?w=500",link:"https://www.amazon.in/",category:"gadgets"},
+{name:"Kitchen Collection",image:"https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=500",link:"https://www.amazon.in/",category:"kitchen"}
+];
+
+/* FEATURED SLIDER */
+const track=document.getElementById("featuredTrack");
+const dots=document.getElementById("featuredDots");
+const count=document.getElementById("slideCount");
+const showcase=document.getElementById("featuredShowcase");
+let currentSlide=0;
+let touchStartX=0;
+
+function makeFeaturedSlides(){
+ featuredProducts.forEach((product,index)=>{
+  const card=document.createElement("article");
+  card.className="featured-card";
+
+  const image=document.createElement("img");
+  image.src=product.image;
+  image.alt=product.name;
+  image.loading="lazy";
+
+  const title=document.createElement("h3");
+  title.textContent=product.name;
+
+  const buy=document.createElement("a");
+  buy.className="buy-button";
+  buy.href=product.link;
+  buy.target="_blank";
+  buy.rel="noopener noreferrer";
+  buy.textContent="Buy on Amazon";
+
+  card.append(image,title,buy);
+  track.appendChild(card);
+
+  const dot=document.createElement("button");
+  dot.type="button";
+  dot.setAttribute("aria-label","Show product "+(index+1));
+  dot.addEventListener("click",()=>showSlide(index));
+  dots.appendChild(dot);
+ });
+ showSlide(0);
+}
+
+function showSlide(index){
+ const cards=[...track.children];
+ const total=cards.length;
+ if(!total)return;
+ currentSlide=(index+total)%total;
+
+ cards.forEach((card,i)=>{
+  card.className="featured-card";
+  if(i===currentSlide)card.classList.add("active");
+  else if(i===(currentSlide-1+total)%total)card.classList.add("previous");
+  else if(i===(currentSlide+1)%total)card.classList.add("next-card");
+  else card.classList.add("hidden");
+ });
+
+ [...dots.children].forEach((dot,i)=>dot.classList.toggle("selected",i===currentSlide));
+ count.textContent=String(currentSlide+1).padStart(2,"0")+" / "+String(total).padStart(2,"0");
+
+ const colors=["#69502f","#31516b","#4c3b65"];
+ showcase.style.setProperty("--glow",colors[currentSlide%colors.length]);
+}
+
+document.getElementById("featuredPrev").addEventListener("click",()=>showSlide(currentSlide-1));
+document.getElementById("featuredNext").addEventListener("click",()=>showSlide(currentSlide+1));
+
+track.addEventListener("touchstart",event=>{
+ touchStartX=event.changedTouches[0].screenX;
+},{passive:true});
+
+track.addEventListener("touchend",event=>{
+ const distance=event.changedTouches[0].screenX-touchStartX;
+ if(Math.abs(distance)>45)showSlide(currentSlide+(distance<0?1:-1));
+},{passive:true});
+
+makeFeaturedSlides();
+
+/* PRODUCT CARDS */
+function createProductCard(product){
+ const card=document.createElement("article");
+ card.className="product-card";
+ card.dataset.category=product.category||"";
+
+ const image=document.createElement("img");
+ image.src=product.image;
+ image.alt=product.name;
+ image.loading="lazy";
+
+ const title=document.createElement("h3");
+ title.textContent=product.name;
+
+ const buy=document.createElement("a");
+ buy.className="buy-button";
+ buy.href=product.link;
+ buy.target="_blank";
+ buy.rel="noopener noreferrer";
+ buy.textContent="Buy on Amazon";
+
+ card.append(image,title,buy);
+ return card;
+}
+
+function renderProducts(products,elementId){
+ const container=document.getElementById(elementId);
+ container.replaceChildren();
+ products.forEach(product=>container.appendChild(createProductCard(product)));
+}
+
+renderProducts(trendingProducts,"trendingProducts");
+renderProducts(bestProducts,"bestProducts");
+
+/* SEARCH AND CATEGORY FILTER */
+let activeCategory="";
+
+function filterProducts(){
+ const query=document.getElementById("searchInput").value.trim().toLowerCase();
+
+ [["trendingProducts","trendingEmpty"],["bestProducts","bestEmpty"]].forEach(([listId,emptyId])=>{
+  const list=document.getElementById(listId);
+  let visibleCount=0;
+
+  [...list.children].forEach(card=>{
+   const matchesText=card.textContent.toLowerCase().includes(query);
+   const matchesCategory=!activeCategory||card.dataset.category===activeCategory;
+   const visible=matchesText&&matchesCategory;
+   card.style.display=visible?"":"none";
+   if(visible)visibleCount++;
+  });
+
+  document.getElementById(emptyId).style.display=visibleCount?"none":"block";
+ });
+}
+
+document.getElementById("searchForm").addEventListener("submit",event=>{
+ event.preventDefault();
+ activeCategory="";
+ filterProducts();
+ document.getElementById("trending").scrollIntoView({behavior:"smooth"});
+});
+
+document.getElementById("searchInput").addEventListener("input",()=>{
+ activeCategory="";
+ filterProducts();
+});
+
+document.querySelectorAll(".category").forEach(category=>{
+ category.addEventListener("click",()=>{
+  activeCategory=category.dataset.category;
+  document.getElementById("searchInput").value="";
+  filterProducts();
+ });
+});
+</script>
+</body>
+</html>
